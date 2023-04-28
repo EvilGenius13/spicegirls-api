@@ -5,6 +5,7 @@ const port = 3000;
 
 // Routes
 const bandMemberRouter = require('./routes/BandMember');
+const albumRouter = require('./routes/Album');
 
 // Middleware
 app.use(express.json());
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 app.use('/band-members', bandMemberRouter);
+app.use('/albums', albumRouter);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
