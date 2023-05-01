@@ -13,12 +13,17 @@ const albumController = {
   },
   getOne: async (req, res) => {
     try {
-      const album = await Album.findById(req.params.id).populate({
+      const album = await Album.findById(req.params.id)
+      .populate({
         path: 'songs',
         select: 'name length',
         options: { strictPopulate: false }
+      })
+      .populate({
+        path: 'bandMembers',
+        select: 'name',
+        options: { strictPopulate: false }
       });
-
       if (!album) {
         res.status(404).json({ message: 'Album not found' });
       } else {

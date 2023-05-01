@@ -20,10 +20,10 @@ require('./data/db');
 app.get('/', (req, res) => {
   res.send("You've reached the spice girls homepage!");
 });
-app.use('/band-members', bandMemberRouter);
-app.use('/albums', albumRouter);
-app.use('/songs', songRouter);
-app.use('/users', userRouter);
+app.use('/api/v1/spicegirls/band-members', bandMemberRouter);
+app.use('/api/v1/spicegirls/albums', albumRouter);
+app.use('/api/v1/spicegirls/songs', songRouter);
+app.use('/api/v1/spicegirls/users', userRouter);
 
 // Connection to server
 app.listen(port, () => {
