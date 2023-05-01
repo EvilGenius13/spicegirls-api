@@ -4,7 +4,7 @@ const Album = require('../models/Album');
 const songController = {
   getAll: async (req, res) => {
     try {
-      const songs = await Song.find({}).select('name length album');
+      const songs = await Song.find({}).select('name');
 
       res.status(200).json(songs);
     } catch (err) {

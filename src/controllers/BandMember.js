@@ -3,7 +3,7 @@ const BandMember = require('../models/BandMember');
 const bandMemberController = {
   getAll: async (req, res) => {
     try {
-      const bandMembers = await BandMember.find({});
+      const bandMembers = await BandMember.find({}).select('name');
       res.status(200).json(bandMembers);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -11,7 +11,8 @@ const bandMemberController = {
   },
   getOne: async (req, res) => {
     try {
-      const bandMember = await BandMember.findById(req.params.id);
+      const bandMember = await BandMember.findById(req.params.id)
+        .populate('albums', 'name releaseDate');
       if (!bandMember) {
         res.status(404).json({ message: 'Band member not found' });
       } else {

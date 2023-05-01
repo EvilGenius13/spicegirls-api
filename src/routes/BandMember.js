@@ -8,5 +8,4 @@ router.post('/', bandMemberController.create);
 router.put('/:id', bandMemberController.update);
 router.delete('/:id', bandMemberController.delete);
 
-
 module.exports = router;

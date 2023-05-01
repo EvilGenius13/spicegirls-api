@@ -13,6 +13,10 @@ const bandMemberSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  albums: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Album'
+  }],
 });
 
 const BandMember = mongoose.model('BandMember', bandMemberSchema);
