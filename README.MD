@@ -1,11 +1,12 @@
+# Docsify Info here
+- [Spice Girls API Documentation](https://evilgenius13.github.io/spicegirls-api-docsify/#/)
+
 # TODO
 - Auth Model / Controller / Route
 - Hide certain Routes behind Auth
-- Tests Mocha/Chai
-- Link second API to some kind of query route
+- Tests Mocha/Chai (installed)
 - Finish Docsify Documentation
 - Maybe add put/delete for users (need to update on docsify)
-- switch to atlas
 - switch to replicaset
 
 ## Test User

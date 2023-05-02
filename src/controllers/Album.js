@@ -1,5 +1,6 @@
 const Album = require('../models/Album');
 const BandMember = require('../models/BandMember');
+const User = require('../models/User');
 
 const albumController = {
   getAll: async (req, res) => {
@@ -36,37 +37,56 @@ const albumController = {
   },
   create: async (req, res) => {
     try {
+      const apiKey = req.query.apiKey;
+      const user = await User.findOne({ apiKey: apiKey });
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+  
       const newAlbum = await Album.create(req.body);
       res.status(201).json(newAlbum);
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
   },
+  
   update: async (req, res) => {
     try {
+      const apiKey = req.query.apiKey;
+      const user = await User.findOne({ apiKey: apiKey });
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+  
       const album = await Album.findById(req.params.id);
       if (!album) {
         res.status(404).json({ message: 'Album not found' });
       } else {
-        const updatedAlbum = await Album.findByIdAndUpdate(
-          req.params.id,
-          { $addToSet: { bandMembers: req.body.bandMembers } }, // use $addToSet to add bandMembers only if they don't already exist in the array
-          { new: true }
-        ).populate({
-          path: 'bandMembers',
-          select: 'name'
-        });
+        // Update album name and/or release date if provided in the request
+        if (req.body.name) album.name = req.body.name;
+        if (req.body.releaseDate) album.releaseDate = req.body.releaseDate;
   
-        // Save the album to the bandMembers
-        const bandMembers = updatedAlbum.bandMembers;
-        for (let i = 0; i < bandMembers.length; i++) {
-          const bandMemberId = bandMembers[i]._id;
-          const bandMember = await BandMember.findByIdAndUpdate(
-            bandMemberId,
-            { $addToSet: { albums: updatedAlbum._id } },
-            { new: true }
-          );
+        // Add band members to album if provided in the request
+        if (req.body.bandMembers && req.body.bandMembers.length > 0) {
+          const newBandMembers = req.body.bandMembers;
+          const existingBandMembers = album.bandMembers.map(m => m.toString());
+  
+          for (let i = 0; i < newBandMembers.length; i++) {
+            const bandMemberId = newBandMembers[i];
+            if (!existingBandMembers.includes(bandMemberId)) {
+              album.bandMembers.push(bandMemberId);
+              const bandMember = await BandMember.findByIdAndUpdate(
+                bandMemberId,
+                { $addToSet: { albums: album._id } },
+                { new: true }
+              );
+            }
+          }
+          
+          await album.save(); // save the changes to album document
         }
+  
+        const updatedAlbum = await album.save();
   
         res.status(200).json(updatedAlbum);
       }
@@ -74,8 +94,15 @@ const albumController = {
       res.status(400).json({ message: err.message });
     }
   },
+  
   delete: async (req, res) => {
     try {
+      const apiKey = req.query.apiKey;
+      const user = await User.findOne({ apiKey: apiKey });
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+  
       const album = await Album.findById(req.params.id);
       if (!album) {
         res.status(404).json({ message: 'Album not found' });
@@ -86,6 +113,7 @@ const albumController = {
       res.status(400).json({ message: err.message });
     }
   },
+
 };
 
 module.exports = albumController;

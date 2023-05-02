@@ -1,5 +1,6 @@
 const Song = require('../models/Song');
 const Album = require('../models/Album');
+const User = require('../models/User');
 
 const songController = {
   getAll: async (req, res) => {
@@ -27,6 +28,12 @@ const songController = {
   },
   create: async (req, res) => {
     try {
+      const apiKey = req.query.apiKey;
+      const user = await User.findOne({ apiKey: apiKey });
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
       const album = await Album.findById(req.body.album);
       if (!album) {
         res.status(400).json({ message: 'Invalid album ID' });
@@ -47,8 +54,15 @@ const songController = {
       res.status(400).json({ message: err.message });
     }
   },
+
   update: async (req, res) => {
     try {
+      const apiKey = req.query.apiKey;
+      const user = await User.findOne({ apiKey: apiKey });
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
       const song = await Song.findById(req.params.id);
       if (!song) {
         res.status(404).json({ message: 'Song not found' });
@@ -60,8 +74,15 @@ const songController = {
       res.status(400).json({ message: err.message });
     }
   },
+
   delete: async (req, res) => {
     try {
+      const apiKey = req.query.apiKey;
+      const user = await User.findOne({ apiKey: apiKey });
+      if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
       const song = await Song.findById(req.params.id);
       if (!song) {
         res.status(404).json({ message: 'Song not found' });
@@ -82,7 +103,7 @@ const songController = {
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
-  }
+  },
 };
 
 module.exports = songController;
