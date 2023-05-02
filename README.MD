@@ -2,10 +2,9 @@
 - [Spice Girls API Documentation](https://evilgenius13.github.io/spicegirls-api-docsify/#/)
 
 # TODO
-- Auth Model / Controller / Route
-- Hide certain Routes behind Auth
+- User login and dashboard with auth for dashboard
 - Tests Mocha/Chai (installed)
-- Finish Docsify Documentation
+- Finish Docsify Documentation (user)
 - Maybe add put/delete for users (need to update on docsify)
 - switch to replicaset
 
