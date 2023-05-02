@@ -5,7 +5,8 @@
 - Link second API to some kind of query route
 - Finish Docsify Documentation
 - Maybe add put/delete for users (need to update on docsify)
-
+- switch to atlas
+- switch to replicaset
 
 ## Test User
 - Username: test
