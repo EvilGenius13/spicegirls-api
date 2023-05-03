@@ -54,7 +54,6 @@ const songController = {
       res.status(400).json({ message: err.message });
     }
   },
-
   update: async (req, res) => {
     try {
       const apiKey = req.query.apiKey;
@@ -62,12 +61,13 @@ const songController = {
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-
+  
       const song = await Song.findById(req.params.id);
       if (!song) {
         res.status(404).json({ message: 'Song not found' });
       } else {
-        await song.updateOne(req.body);
+        Object.assign(song, req.body); // Update the song object in memory
+        await song.save(); // Save the changes to the database
         res.status(200).json(song);
       }
     } catch (err) {

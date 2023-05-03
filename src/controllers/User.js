@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 function generateApiKey() {
   return crypto.randomBytes(32).toString('hex');
@@ -34,7 +35,6 @@ const userController = {
       res.status(500).json({ message: err.message });
     }
   },
-
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -57,6 +57,24 @@ const userController = {
       );
 
       res.status(200).json({ token });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+  dashboard: async (req, res) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decodedToken.userId;
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const { username, email, apiKey } = user;
+
+      res.status(200).json({ username, email, apiKey });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
