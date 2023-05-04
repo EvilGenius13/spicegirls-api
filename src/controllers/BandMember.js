@@ -29,25 +29,10 @@ const bandMemberController = {
     }
   },
   create: async (req, res) => {
-    try {
-      const apiKey = req.query.apiKey;
-      const user = await User.findOne({ apiKey: apiKey });
-      if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
       const newBandMember = await BandMember.create(req.body);
       res.status(201).json(newBandMember);
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
   },
   update: async (req, res) => {
-    try {
-      const apiKey = req.query.apiKey;
-      const user = await User.findOne({ apiKey: apiKey });
-      if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
       const bandMember = await BandMember.findById(req.params.id);
       if (!bandMember) {
         res.status(404).json({ message: 'Band member not found' });
@@ -55,17 +40,8 @@ const bandMemberController = {
         await bandMember.updateOne(req.body);
         res.status(200).json(bandMember);
       }
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
   },
   delete: async (req, res) => {
-    try {
-      const apiKey = req.query.apiKey;
-      const user = await User.findOne({ apiKey: apiKey });
-      if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
       const bandMember = await BandMember.findById(req.params.id);
       if (!bandMember) {
         res.status(404).json({ message: 'Band member not found' });
@@ -73,9 +49,6 @@ const bandMemberController = {
         await bandMember.deleteOne();
         res.status(200).json({ message: 'Band member deleted' });
       }
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
   }
 };
 

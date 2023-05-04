@@ -62,22 +62,8 @@ const userController = {
     }
   },
   dashboard: async (req, res) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      const userId = decodedToken.userId;
-      const user = await User.findById(userId);
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      const { username, email, apiKey } = user;
-
-      res.status(200).json({ username, email, apiKey });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
+    const { username, email, apiKey } = req.user;
+    res.status(200).json({ username, email, apiKey });
   },
 };
 

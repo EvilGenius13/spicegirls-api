@@ -27,13 +27,6 @@ const songController = {
     }
   },
   create: async (req, res) => {
-    try {
-      const apiKey = req.query.apiKey;
-      const user = await User.findOne({ apiKey: apiKey });
-      if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-
       const album = await Album.findById(req.body.album);
       if (!album) {
         res.status(400).json({ message: 'Invalid album ID' });
@@ -50,39 +43,18 @@ const songController = {
       await album.save();
 
       res.status(201).json(newSong);
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
   },
   update: async (req, res) => {
-    try {
-      const apiKey = req.query.apiKey;
-      const user = await User.findOne({ apiKey: apiKey });
-      if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-  
       const song = await Song.findById(req.params.id);
       if (!song) {
         res.status(404).json({ message: 'Song not found' });
       } else {
-        Object.assign(song, req.body); // Update the song object in memory
-        await song.save(); // Save the changes to the database
+        Object.assign(song, req.body);
+        await song.save();
         res.status(200).json(song);
       }
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
   },
-
   delete: async (req, res) => {
-    try {
-      const apiKey = req.query.apiKey;
-      const user = await User.findOne({ apiKey: apiKey });
-      if (!user) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-
       const song = await Song.findById(req.params.id);
       if (!song) {
         res.status(404).json({ message: 'Song not found' });
@@ -100,9 +72,6 @@ const songController = {
 
       await song.deleteOne();
       res.status(200).json({ message: 'Song deleted' });
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
   },
 };
 
