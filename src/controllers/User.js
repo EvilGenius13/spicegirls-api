@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
+const RouteVisits = require('../models/RouteVisit');
 
 function generateApiKey() {
   return crypto.randomBytes(32).toString('hex');
@@ -64,6 +65,15 @@ const userController = {
   dashboard: async (req, res) => {
     const { username, email, apiKey } = req.user;
     res.status(200).json({ username, email, apiKey });
+  },
+  metrics: async (req, res) => {
+    try {
+      const data = await RouteVisits.find({}).select('route count');
+
+      res.status(200).json(data);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   },
 };
 

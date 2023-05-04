@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bandMemberController = require('../controllers/BandMember');
 const apiKeyAuth = require('../middleware/checkAPI');
+const trackRouteVisit = require('../middleware/RouteVisit');
 
+router.use(trackRouteVisit);
 router.get('/', bandMemberController.getAll);
 router.get('/:id', bandMemberController.getOne);
 router.post('/', apiKeyAuth, bandMemberController.create);
