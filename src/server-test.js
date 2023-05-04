@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.TEST_PORT;
 
 // Routes
 const bandMemberRouter = require('./routes/BandMember');
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 // Connect to MongoDB
-require('./data/db');
+require('./data/db-test');
 
 app.get('/', (req, res) => {
   res.send("You've reached the spice girls homepage!");
@@ -26,8 +26,8 @@ app.use('/api/v1/spicegirls/songs', songRouter);
 app.use('/api/v1/spicegirls/users', userRouter);
 
 // Connection to server
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+const server = app.listen(port, () => {
+  console.log(`Test Server listening on port ${port}`);
 });
 
-module.exports = app;
+module.exports = {app, server};

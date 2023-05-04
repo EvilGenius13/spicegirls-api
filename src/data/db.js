@@ -15,4 +15,3 @@ mongoose.connect(mongoUri, {
 .catch(error => console.error('Error connecting to MongoDB: ', error));
 
 module.exports = mongoose.connection;
-
