@@ -1,40 +1,11 @@
-// Requirements
 require('dotenv').config();
 const mongoose = require('mongoose');
-const MONGODB_URI = process.env.MONGODB_URI;
-
-// // Connect to MongoDB
-// mongoose.connect(MONGODB_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   replicaSet: 'rs0',
-// }).then(() => {
-//   console.log('Connected to MongoDB replica set');
-// }).catch((error) => {
-//   console.log('Error connecting to MongoDB replica set: ', error);
-// });
-
-// // Connection events
-// const db = mongoose.connection;
-
-// db.once('open', () => {
-//   console.log('MongoDB connection opened');
-// });
-
-// db.on('error', (error) => {
-//   console.log('MongoDB connection error: ', error);
-// });
-
-// // Change stream events
-// const changeStream = db.collection('spicegirls').watch();
-
-// changeStream.on('change', (change) => {
-//   console.log('Change stream event:', change);
-// });
-
+const ATLAS_USER = process.env.ATLAS_USER;
+const ATLAS_PASSWORD = process.env.ATLAS_PASSWORD;
+const ATLAS_URI = process.env.ATLAS_URI;
 
 // Connect to MongoDB
-const mongoUri = 'mongodb://localhost/spicegirls';
+const mongoUri = `mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}${ATLAS_URI}`;
 
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
