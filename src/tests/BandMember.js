@@ -123,8 +123,9 @@ describe("BandMembers", () => {
 
   after(async () => {
     await BandMember.deleteMany({});
-    await User.deleteMany({});
+    await User.deleteOne({ username: "test" });
     await mongoose.disconnect();
+    console.log('Mongoose connection state:', mongoose.connection.readyState);
     server.close();
   });
 });

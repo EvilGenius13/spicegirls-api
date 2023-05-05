@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "mocha src/tests/",
+    "test:serial": "mocha ./src/tests/BandMember.js && mocha ./src/tests/Song.js && mocha ./src/tests/Album.js && mocha ./src/tests/User.js --exit",
     "start": "nodemon src/server.js"
   },
   "keywords": [],
