@@ -1,5 +1,6 @@
 # Spice Girls API
 This is an API running on express and mongoDB.
+The project is currently hosted on Render at https://sg-api-zr1g.onrender.com (This may change in the future)
 
 
 ## Docsify Info here
