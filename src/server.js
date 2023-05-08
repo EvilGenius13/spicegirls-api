@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 require('./data/db');
 
 app.get('/', (req, res) => {
-  res.send("You've reached the spice girls homepage!");
+  res.send("You've reached the spice girls homepage! Go to /docs to see the docsify documentation.");
 });
 app.use('/api/v1/spicegirls/band-members', bandMemberRouter);
 app.use('/api/v1/spicegirls/albums', albumRouter);
