@@ -14,8 +14,6 @@ const userRouter = require('./routes/User');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Docsify
-app.use(express.static(path.join(__dirname, '../docs')));
 
 // Connect to MongoDB
 require('./data/db');
@@ -27,6 +25,9 @@ app.use('/api/v1/spicegirls/band-members', bandMemberRouter);
 app.use('/api/v1/spicegirls/albums', albumRouter);
 app.use('/api/v1/spicegirls/songs', songRouter);
 app.use('/api/v1/spicegirls/users', userRouter);
+
+// Docsify
+app.use('/docs', express.static(path.join(__dirname, 'docs')));
 
 // Connection to server
 app.listen(port, () => {
