@@ -25,14 +25,12 @@ You can authenticate your requests by passing your API key in the `query paramet
 Example: POST /api/v1/spicegirls/albums&api_key=YOUR_API_KEY
 </div>
 
-## Authentication
+You can also authenticate your requests by passing your API key in the `header`.
 
-> Once you register for an account, you can access your API key from your dashboard.
-
-You can authenticate your requests by passing your API key in the `query parameter`.
-
-```http
-GET /api/v1/spicegirls/songs?apiKey=YOUR_API_KEY
+```json
+{
+  "x-api-key": "YOUR_API_KEY"
+}
 ```
 
 ## What do the methods mean?
